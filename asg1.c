@@ -1,4 +1,4 @@
-
+#Distance vector algorithm
 #include<stdio.h>
 int a[10][10],n;
 int min(int a,int b)
