@@ -23,11 +23,22 @@ void main()
  c=c3*4+c2*2+c1*1;
  if(c==0)
  {
- printf("there is no error");
+ printf("there is no error and bits are \n");
  }
  else
  {
- printf("Error on position %d",c);
+ printf("Error on position %d\n",c);
  }
+ if(rec[7-c]==0)
+     rec[7-c]=1;
+     else
+     rec[7-c]=0;
+     printf("corrected bits are:\n");
+    for(i=0;i<7;i++)
+    {
+    
+    printf(" %d\t",rec[i]);
+     
+     }
  }
 
