@@ -70,9 +70,9 @@ $ns at 1.45 "$n3 join-group $rcvr3 $group"
 
 set rcvr4 [new Agent/LossMonitor];
 $ns attach-agent $n4 $rcvr4
-$ns at 2.3 "$n4 join-group $rcvr4 $group"
+$ns at 0.3 "$n4 join-group $rcvr4 $group"
 
-$ns at 4.3 "$n4 leave-group $rcvr4 $group"
+$ns at 3.3 "$n4 leave-group $rcvr4 $group"
 #===================================
 #        Applications Definition        
 #===================================
