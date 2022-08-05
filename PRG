@@ -1,0 +1,563 @@
+CREATE TABLE BRANCH(BRANCH_ID VARCHAR(20)PRIMARY KEY,BRANCH_NAME VARCHAR(25)NOT NULL,HOD VARCHAR(25));
+
+ DESC BRANCH;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| BRANCH_ID   | varchar(20) | NO   | PRI | NULL    |       |
+| BRANCH_NAME | varchar(25) | NO   |     | NULL    |       |
+| HOD         | varchar(25) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+CREATE TABLE STUDENT(USN VARCHAR(20)PRIMARY KEY,NAME VARCHAR(25)NOT NULL,ADDRESS VARCHAR(50),BRANCH_ID VARCHAR(20),FOREIGN KEY(BRANCH_ID) REFERENCES BRANCH(BRANCH_ID),SEM VARCHAR(10));
+
+mysql> DESC STUDENT;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| USN       | varchar(20) | NO   | PRI | NULL    |       |
+| NAME      | varchar(25) | NO   |     | NULL    |       |
+| ADDRESS   | varchar(50) | YES  |     | NULL    |       |
+| BRANCH_ID | varchar(20) | YES  | MUL | NULL    |       |
+| SEM       | varchar(10) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+ 
+CREATE TABLE BOOK(BOOK_ID VARCHAR(20)PRIMARY KEY,BOOK_NAME VARCHAR(20),AUTHOR_ID VARCHAR(20),PUBLISHER VARCHAR(20),BRANCH_ID VARCHAR(20),FOREIGN KEY(AUTHOR_ID)REFERENCES AUTHOR(AUTHOR_ID),FOREIGN KEY(BRANCH_ID) REFERENCES BRANCH(BRANCH_ID));
+
+mysql> DESC BOOK;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| BOOK_ID   | varchar(20) | NO   | PRI | NULL    |       |
+| BOOK_NAME | varchar(20) | YES  |     | NULL    |       |
+| AUTHOR_ID | varchar(20) | YES  | MUL | NULL    |       |
+| PUBLISHER | varchar(20) | YES  |     | NULL    |       |
+| BRANCH_ID | varchar(20) | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+CREATE TABLE AUTHOR(
+    -> AUTHOR_ID VARCHAR(20)PRIMARY KEY,AUTHOR_NAME VARCHAR(25),
+    -> COUNTRY VARCHAR(10),
+    -> AGE VARCHAR(5));
+
+mysql> DESC AUTHOR;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| AUTHOR_ID   | varchar(20) | NO   | PRI | NULL    |       |
+| AUTHOR_NAME | varchar(25) | YES  |     | NULL    |       |
+| COUNTRY     | varchar(10) | YES  |     | NULL    |       |
+| AGE         | varchar(5)  | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+CREATE TABLE BORROW(USN VARCHAR(20),BOOK_ID VARCHAR(20),BORROWED_DATE DATE,FOREIGN KEY(USN) REFERENCES STUDENT(USN),FOREIGN KEY(BOOK_ID)REFERENCES BOOK(BOOK_ID));
+
+mysql> DESC BORROW;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| USN           | varchar(20) | YES  | MUL | NULL    |       |
+| BOOK_ID       | varchar(20) | YES  | MUL | NULL    |       |
+| BORROWED_DATE | date        | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> INSERT INTO BRANCH VALUES('B1','MCA','DR.VANDANA');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO BRANCH VALUES('B2','MBA','DR.IYER');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BRANCH VALUES('B3','CS','PROF.KRISHNA MOHAN');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO BRANCH VALUES('B4','MECH','DR.MANUJESH');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BRANCH VALUES('B5','CIVIL','DR.ANAND');
+Query OK, 1 row affected (0.01 sec)
+
+
+
+
+mysql> SELECT * FROM BRANCH;
++-----------+-------------+--------------------+
+| BRANCH_ID | BRANCH_NAME | HOD                |
++-----------+-------------+--------------------+
+| B1        | MCA         | DR.VANDANA         |
+| B2        | MBA         | DR.IYER            |
+| B3        | CS          | PROF.KRISHNA MOHAN |
+| B4        | MECH        | DR.MANUJESH        |
+| B5        | CIVIL       | DR.ANAND           |
++-----------+-------------+--------------------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO STUDENT VALUES('4VP21MC039','SANU','PUTTUR','B1','1');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO STUDENT VALUES('4VP21MC023','SONU','KABAKA','B2','2');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO STUDENT VALUES('4VP21MC044','HARSH','UPPALA','B4','4');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO STUDENT VALUES('4VP21MC028','VARSHA','UDUPI','B3','3');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO STUDENT VALUES('4VP21MC047','THANU','MANGALORE','B5','2');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO STUDENT VALUES('4VP21MC050','CHARITH','MANGALORE','B2','4');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM STUDENT;
++------------+---------+-----------+-----------+------+
+| USN        | NAME    | ADDRESS   | BRANCH_ID | SEM  |
++------------+---------+-----------+-----------+------+
+| 4VP21MC023 | SONU    | KABAKA    | B2        | 2    |
+| 4VP21MC028 | VARSHA  | UDUPI     | B3        | 3    |
+| 4VP21MC039 | SANU    | PUTTUR    | B1        | 1    |
+| 4VP21MC044 | HARSH   | UPPALA    | B4        | 4    |
+| 4VP21MC047 | THANU   | MANGALORE | B5        | 2    |
+| 4VP21MC050 | CHARITH | MANGALORE | B2        | 4    |
++------------+---------+-----------+-----------+------+
+6 rows in set (0.00 sec)
+
+INSERT INTO AUTHOR VALUES('1','RAMEZ ELMASRI','ARLINHOTON','51');
+mysql> INSERT INTO AUTHOR VALUES('2','BAIDYANATH MYSHRA','INDIA','52');
+Query OK, 1 row affected (0.00 sec)
+mysql> INSERT INTO AUTHOR VALUES('3','ELLIS HOROWITZ','US','41');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO AUTHOR VALUES('5','YUNUS','JAPAN','34');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO AUTHOR VALUES('4','DEEPAK KEHAMANI','INDIA','39');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM AUTHOR;
++-----------+-------------------+------------+------+
+| AUTHOR_ID | AUTHOR_NAME       | COUNTRY    | AGE  |
++-----------+-------------------+------------+------+
+| 1         | RAMEZ ELMASRI     | ARLINHOTON | 51   |
+| 2         | BAIDYANATH MYSHRA | INDIA      | 52   |
+| 3         | ELLIS HOROWITZ    | US         | 41   |
+| 4         | DEEPAK KEHAMANI   | INDIA      | 39   |
+| 5         | YUNUS             | JAPAN      | 34   |
++-----------+-------------------+------------+------+
+5 rows in set (0.00 sec)
+
+
+mysql> INSERT INTO BOOK VALUES('BK1','DBMS','1','PEARSON','B1');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO BOOK VALUES('BK2','RMI','2','PEARSON','B2');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BOOK VALUES('BK3','DATA STRUCTURE','4','MC GRAW HILL','B4');
+Query OK, 1 row affected (0.00 sec)
+mysql> INSERT INTO BOOK VALUES('BK4','THERMO DYNAMICS','3','TAYLOR','B5');
+INSERT INTO BOOK VALUES('BK5','AI','5','TAYLOR','B3');
+INSERT INTO BOOK VALUES('BK6','ALGORITHMS','4','MC GRAW HILL','B1');
+mysql> SELECT * FROM BOOK;
++---------+-----------------+-----------+--------------+-----------+
+| BOOK_ID | BOOK_NAME       | AUTHOR_ID | PUBLISHER    | BRANCH_ID |
++---------+-----------------+-----------+--------------+-----------+
+| BK1     | DBMS            | 1         | PEARSON      | B1        |
+| BK2     | RMI             | 2         | PEARSON      | B2        |
+| BK3     | DATA STRUCTURE  | 4         | MC GRAW HILL | B4        |
+| BK4     | THERMO DYNAMICS | 3         | TAYLOR       | B5        |
+| BK5     | AI              | 5         | TAYLOR       | B3        |
+| BK6     | ALGORITHMS      | 4         | MC GRAW HILL | B1        |
++---------+-----------------+-----------+--------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> INSERT INTO BORROW VALUES('4VP21MC023','BK6','2021-01-01');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BORROW VALUES('4VP21MC050','BK3','2021-02-04');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BORROW VALUES('4VP21MC044','BK2','2022-05-23');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO BORROW VALUES('4VP21MC028','BK2','2019-03-14');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BORROW VALUES('4VP21MC039','BK4','2017-09-11');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO BORROW VALUES('4VP21MC050','BK5','2020-10-12');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BORROW VALUES('4VP21MC044','BK1','2021-12-02');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM BORROW;
++------------+---------+---------------+
+| USN        | BOOK_ID | BORROWED_DATE |
++------------+---------+---------------+
+| 4VP21MC023 | BK6     | 2021-01-01    |
+| 4VP21MC050 | BK3     | 2021-02-04    |
+| 4VP21MC044 | BK2     | 2022-05-23    |
+| 4VP21MC028 | BK2     | 2019-03-14    |
+| 4VP21MC039 | BK4     | 2017-09-11    |
+| 4VP21MC050 | BK5     | 2020-10-12    |
+| 4VP21MC044 | BK1     | 2021-12-02    |
++------------+---------+---------------+
+7 rows in set (0.00 sec)
+
+1)
+
+// 1 METHOD  mysql>  SELECT BRANCH_NAME,NAME FROM STUDENT,BRANCH WHERE STUDENT.SEM='2' AND BRANCH.BRANCH_NAME='MCA';
++-------------+-------+
+| BRANCH_NAME | NAME  |
++-------------+-------+
+| MCA         | SONU  |
+| MCA         | THANU |
++-------------+-------+
+
+ // USE 2 METHOD  SELECT * FROM STUDENT WHERE SEM='2' AND BRANCH_ID IN (SELECT BRANCH_ID FROM BRANCH WHERE BRANCH.BRANCH_NAME='MCA');
++------------+------+---------+-----------+------+
+| USN        | NAME | ADDRESS | BRANCH_ID | SEM  |
++------------+------+---------+-----------+------+
+| 4VP21MC021 | SONI | KABA    | B1        | 2    |
++------------+------+---------+-----------+------+
+1 row in set (0.00 sec)
+
+
+2)
+
+mysql> SELECT * FROM STUDENT WHERE USN NOT IN(SELECT USN FROM BORROW);
++------------+-------+-----------+-----------+------+
+| USN        | NAME  | ADDRESS   | BRANCH_ID | SEM  |
++------------+-------+-----------+-----------+------+
+| 4VP21MC047 | THANU | MANGALORE | B5        | 2    |
++------------+-------+-----------+-----------+------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM BORROW;
++------------+---------+---------------+
+| USN        | BOOK_ID | BORROWED_DATE |
++------------+---------+---------------+
+| 4VP21MC023 | BK6     | 2021-01-01    |
+| 4VP21MC050 | BK3     | 2021-02-04    |
+| 4VP21MC044 | BK2     | 2022-05-23    |
+| 4VP21MC028 | BK2     | 2019-03-14    |
+| 4VP21MC039 | BK4     | 2017-09-11    |
+| 4VP21MC050 | BK5     | 2020-10-12    |
+| 4VP21MC044 | BK1     | 2021-12-02    |
+
+
+7)
+mysql> SELECT BOOK_NAME FROM BOOK ORDER BY BOOK_NAME DESC;
++-----------------+
+| BOOK_NAME       |
++-----------------+
+| THERMO DYNAMICS |
+| RMI             |
+| DBMS            |
+| DATA STRUCTURE  |
+| ALGORITHMS      |
+| AI              |
++-----------------+
+
+mysql> STUDENT.USN,STUDENT.NAME,BRANCH.BRANCH_NAME,BOOK.BOOK_NAME,AUTHOR.AUTHOR_NAME,BORROW.BORROWED_DATE FROM STUDENT,BRANCH,BOOK,AUTHOR,BORROW WHERE STUDENT.BRANCH_ID=BRANCH.BRANCH_ID AND BRANCH.BRANCH_ID=BOOK.BRANCH_ID AND BOOK.AUTHOR_ID=AUTHOR.AUTHOR_ID AND STUDENT.USN=BORROW.USN AND STUDENT.SEM='2' AND BRANCH.BRANCH_NAME='MCA';
++------------+------+-------------+------------+-----------------+---------------+
+| USN        | NAME | BRANCH_NAME | BOOK_NAME  | AUTHOR_NAME     | BORROWED_DATE |
++------------+------+-------------+------------+-----------------+---------------+
+| 4VP21MC021 | SONI | MCA         | DBMS       | RAMEZ ELMASRI   | 2021-12-02    |
+| 4VP21MC021 | SONI | MCA         | ALGORITHMS | DEEPAK KEHAMANI | 2021-12-02    |
++------------+------+-------------+------------+-----------------+---------------+
+2 rows in set (0.00 sec)
+
+alter table MATCHES
+ MODIFY FOREIGN KEY(MAN_OF_THE_MATCH) 
+ REFERENCES PLAYER(PID);
+
+
+
+
+
+
+SELECT COUNT(AUTHOR_ID) FROM BOOK GROUP BY AUTHOR_ID;
++------------------+
+| COUNT(AUTHOR_ID) |
++------------------+
+|                1 |
+|                1 |
+|                1 |
+|                2 |
+|                1 |
++------------------+
+5 rows in set (0.00 sec)
+
+ SELECT COUNT(*),AUTHOR_ID FROM BOOK GROUP BY AUTHOR_ID;
++----------+-----------+
+| COUNT(*) | AUTHOR_ID |
++----------+-----------+
+|        1 | 1         |
+|        1 | 2         |
+|        1 | 3         |
+|        2 | 4         |
+|        1 | 5         |
++----------+-----------+
+5 rows in set (0.00 sec)
+
+IV)
+
+SELECT AUTHOR.AUTHOR_NAME,COUNT(*),BOOK.AUTHOR_ID FROM BOOK,AUTHOR WHERE AUTHOR.AUTHOR_ID=BOOK.AUTHOR_ID GROUP BY AUTHOR_ID;
++-------------------+----------+-----------+
+| AUTHOR_NAME       | COUNT(*) | AUTHOR_ID |
++-------------------+----------+-----------+
+| RAMEZ ELMASRI     |        1 | 1         |
+| BAIDYANATH MYSHRA |        1 | 2         |
+| ELLIS HOROWITZ    |        1 | 3         |
+| DEEPAK KEHAMANI   |        2 | 4         |
+| YUNUS             |        1 | 5         |
++-------------------+----------+-----------+
+5 rows in set (0.01 sec)
+
+V)
+SELECT * FROM STUDENT WHERE USN IN(SELECT USN FROM BORROW WHERE STUDENT.USN=BORROW.USN GROUP BY USN HAVING COUNT(BORROW.USN)=2);;
++------------+---------+-----------+-----------+------+
+| USN        | NAME    | ADDRESS   | BRANCH_ID | SEM  |
++------------+---------+-----------+-----------+------+
+| 4VP21MC044 | HARSH   | UPPALA    | B4        | 4    |
+| 4VP21MC050 | CHARITH | MANGALORE | B2        | 4    |
++------------+---------+-----------+-----------+------+
+2 rows in set (0.00 sec)
+
+
+VI)
+SELECT * FROM STUDENT S  WHERE exists(SELECT BR.USN FROM BORROW BR,BOOK BK WHERE BR.BOOK_ID=BK.BOOK_ID AND BR.USN=S.USN GROUP BY USN HAVING COUNT(DISTINCT AUTHOR_ID)>1);
++------------+---------+-----------+-----------+------+
+| USN        | NAME    | ADDRESS   | BRANCH_ID | SEM  |
++------------+---------+-----------+-----------+------+
+| 4VP21MC044 | HARSH   | UPPALA    | B4        | 4    |
+| 4VP21MC050 | CHARITH | MANGALORE | B2        | 4    |
++------------+---------+-----------+-----------+------+
+2 rows in set (0.00 sec)
+
+viii.List the details of students who borrowed the books which are all published by the same
+publisher.
+
+SELECT * FROM STUDENT S where exists(SELECT USN,PUBLISHER FROM BORROW,BOOK WHERE BORROW.BOOK_ID=BOOK.BOOK_ID AND S.USN=BORROW.USN GROUP BY USN HAVING COUNT(DISTINCT PUBLISHER)=1);
+
+
+
+
+ CREATE TABLE STUDENT(USN VARCHAR(20)PRIMARY KEY,NAME VARCHAR(25),DATE_BIRTH DATE,BRANCH VARCHAR(20),MARK1 INT,MARK2 INT,MARK3 INT,TOTAL
+ INT,GPA INT);
+ desc STUDENT;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| USN        | varchar(20) | NO   | PRI | NULL    |       |
+| NAME       | varchar(25) | YES  |     | NULL    |       |
+| DATE_BIRTH | date        | YES  |     | NULL    |       |
+| BRANCH     | varchar(20) | YES  |     | NULL    |       |
+| MARK1      | int         | YES  |     | NULL    |       |
+| MARK2      | int         | YES  |     | NULL    |       |
+| MARK3      | int         | YES  |     | NULL    |       |
+| TOTAL      | int         | YES  |     | NULL    |       |
+| GPA        | int         | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+9 rows in set (0.00 sec)
+
+
+INSERT INTO STUDENT(USN,NAME,DATE_BIRTH,BRANCH) VALUES('4VP21MC012','ANISH','2000-5-1','MCA');
+
+ INSERT INTO STUDENT(USN,NAME,DATE_BIRTH,BRANCH) VALUES('4VP21MC012','ANISH','2000-5-1','MCA');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO STUDENT(USN,NAME,DATE_BIRTH,BRANCH) VALUES('4VP21MC010','ASHVINI','2011-7-2','MCA');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO STUDENT(USN,NAME,DATE_BIRTH,BRANCH) VALUES('4VP21MC021','ASHVINI','2001-9-3','MCA');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO STUDENT(USN,NAME,DATE_BIRTH,BRANCH) VALUES('4VP21MC023','HARI','1991-12-18','MCA');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO STUDENT(USN,NAME,DATE_BIRTH,BRANCH) VALUES('4VP21MC029','HARSH','1998-11-18','MCA');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO STUDENT(USN,NAME,DATE_BIRTH,BRANCH) VALUES('4VP21MC060','HEMA','1980-7-11','MCA');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO STUDENT(USN,NAME,DATE_BIRTH,BRANCH) VALUES('4VP21MC050','AVANI','1990-7-10','MCA');
+Query OK, 1 row affected (0.00 sec)
++------------+---------+------------+--------+-------+-------+-------+-------+------+
+| USN        | NAME    | DATE_BIRTH | BRANCH | MARK1 | MARK2 | MARK3 | TOTAL | GPA  |
++------------+---------+------------+--------+-------+-------+-------+-------+------+
+| 4VP21MC010 | ASHVINI | 2011-07-02 | MCA    |  NULL |  NULL |  NULL |  NULL | NULL |
+| 4VP21MC012 | ANISH   | 2000-05-01 | MCA    |  NULL |  NULL |  NULL |  NULL | NULL |
+| 4VP21MC021 | ASHVINI | 2001-09-03 | MCA    |  NULL |  NULL |  NULL |  NULL | NULL |
+| 4VP21MC023 | HARI    | 1991-12-18 | MCA    |  NULL |  NULL |  NULL |  NULL | NULL |
+| 4VP21MC029 | HARSH   | 1998-11-18 | MCA    |  NULL |  NULL |  NULL |  NULL | NULL |
+| 4VP21MC050 | AVANI   | 1990-07-10 | MCA    |  NULL |  NULL |  NULL |  NULL | NULL |
+| 4VP21MC060 | HEMA    | 1980-07-11 | MCA    |  NULL |  NULL |  NULL |  NULL | NULL |
++------------+---------+------------+--------+-------+-------+-------+-------+------+
+7 rows in set (0.00 sec)
+UPDATE STUDENT SET MARK1=89,MARK2=90,MARK3=70 WHERE USN='4VP21MC010';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+
+mysql> UPDATE STUDENT SET MARK1=49,MARK2=60,MARK3=89 WHERE USN='4VP21MC012';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE STUDENT SET MARK1=29,MARK2=30,MARK3=59 WHERE USN='4VP21MC023';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE STUDENT SET MARK1=99,MARK2=100,MARK3=99 WHERE USN='4VP21MC029';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE STUDENT SET MARK1=99,MARK2=100,MARK3=100 WHERE USN='4VP21MC050';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE STUDENT SET MARK1=99,MARK2=100,MARK3=80 WHERE USN='4VP21MC060';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE STUDENT SET MARK1=99,MARK2=60,MARK3=80 WHERE USN='1001';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
++------------+---------+------------+--------+-------+-------+-------+-------+------+
+| USN        | NAME    | DATE_BIRTH | BRANCH | MARK1 | MARK2 | MARK3 | TOTAL | GPA  |
++------------+---------+------------+--------+-------+-------+-------+-------+------+
+| 1001       | HANI    | 1999-07-10 | MCA    |    99 |    60 |    80 |  NULL | NULL |
+| 4VP21MC010 | ASHVINI | 2011-07-02 | MCA    |    89 |    90 |    70 |  NULL | NULL |
+| 4VP21MC012 | ANISH   | 2000-05-01 | MCA    |    49 |    60 |    89 |  NULL | NULL |
+| 4VP21MC021 | ASHVINI | 2001-09-03 | MCA    |    74 |    71 |    39 |  NULL | NULL |
+| 4VP21MC023 | HARI    | 1991-12-18 | MCA    |    29 |    30 |    59 |  NULL | NULL |
+| 4VP21MC029 | HARSH   | 1998-11-18 | MCA    |    99 |   100 |    99 |  NULL | NULL |
+| 4VP21MC050 | AVANI   | 1990-07-10 | MCA    |    99 |   100 |   100 |  NULL | NULL |
+| 4VP21MC060 | HEMA    | 1980-07-11 | MCA    |    99 |   100 |    80 |  NULL | NULL |
++------------+---------+------------+--------+-------+-------+-------+-------+------+
+8 rows in set (0.01 sec)
+UPDATE STUDENT SET TOTAL=MARK1+MARK2+MARK3;
++------------+---------+------------+--------+-------+-------+-------+-------+------+
+| USN        | NAME    | DATE_BIRTH | BRANCH | MARK1 | MARK2 | MARK3 | TOTAL | GPA  |
++------------+---------+------------+--------+-------+-------+-------+-------+------+
+| 1001       | HANI    | 1999-07-10 | MCA    |    99 |    60 |    80 |   239 | NULL |
+| 4VP21MC010 | ASHVINI | 2011-07-02 | MCA    |    89 |    90 |    70 |   249 | NULL |
+| 4VP21MC012 | ANISH   | 2000-05-01 | MCA    |    49 |    60 |    89 |   198 | NULL |
+| 4VP21MC021 | ASHVINI | 2001-09-03 | MCA    |    74 |    71 |    39 |   184 | NULL |
+| 4VP21MC023 | HARI    | 1991-12-18 | MCA    |    29 |    30 |    59 |   118 | NULL |
+| 4VP21MC029 | HARSH   | 1998-11-18 | MCA    |    99 |   100 |    99 |   298 | NULL |
+| 4VP21MC050 | AVANI   | 1990-07-10 | MCA    |    99 |   100 |   100 |   299 | NULL |
+| 4VP21MC060 | HEMA    | 1980-07-11 | MCA    |    99 |   100 |    80 |   279 | NULL |
++------------+---------+------------+--------+-------+-------+-------+-------+------+
+8 rows in set (0.00 sec)
+ UPDATE STUDENT SET GPA=TOTAL/3;
+ SELECT * FROM STUDENT;
++------------+---------+------------+--------+-------+-------+-------+-------+------+
+| USN        | NAME    | DATE_BIRTH | BRANCH | MARK1 | MARK2 | MARK3 | TOTAL | GPA  |
++------------+---------+------------+--------+-------+-------+-------+-------+------+
+| 1001       | HANI    | 1999-07-10 | MCA    |    99 |    60 |    80 |   239 |   80 |
+| 4VP21MC010 | ASHVINI | 2011-07-02 | MCA    |    89 |    90 |    70 |   249 |   83 |
+| 4VP21MC012 | ANISH   | 2000-05-01 | MBA    |    49 |    60 |    89 |   198 |   66 |
+| 4VP21MC021 | ASHVINI | 2001-09-03 | MCA    |    74 |    71 |    39 |   184 |   61 |
+| 4VP21MC023 | HARI    | 1991-12-18 | MCA    |    29 |    30 |    59 |   118 |   39 |
+| 4VP21MC029 | HARSH   | 1998-11-18 | MCA    |    99 |   100 |    99 |   298 |   99 |
+| 4VP21MC050 | AVANI   | 1990-07-10 | MCA    |    99 |   100 |   100 |   299 |  100 |
+| 4VP21MC060 | THUSHAR    | 1980-07-11 | MCA    |    99 |   100 |    80 |   279 |   93 |
++------------+---------+------------+--------+-------+-------+-------+-------+------+
+8 rows in set (0.00 sec)
+
+SELECT YEAR(DATE_BIRTH)FROM STUDENT;
++------------------+
+| YEAR(DATE_BIRTH) |
++------------------+
+|             1999 |
+|             2011 |
+|             2000 |
+|             2001 |
+|             1991 |
+|             1998 |
+|             1990 |
+|             1980 |
++------------------+
+
+SELECT NAME,BRANCH FROM STUDENT;
++---------+--------+
+| NAME    | BRANCH |
++---------+--------+
+| HANI    | MCA    |
+| ASHVINI | MCA    |
+| ANISH   | MBA    |
+| ASHVINI | MCA    |
+| HARI    | MCA    |
+| HARSH   | MCA    |
+| AVANI   | MCA    |
+| HEMA    | MCA    |
++---------+--------+
+SELECT BRANCH,MAX(GPA) FROM STUDENT GROUP BY BRANCH;
++--------+----------+
+| BRANCH | MAX(GPA) |
++--------+----------+
+| MCA    |      100 |
+| MBA    |       66 |
++--------+----------+
+ SELECT NAME  FROM STUDENT WHERE NAME LIKE "S%";
++-----------+
+| NAME      |
++-----------+
+| SHAINITHA |
++-----------+
+ SELECT NAME  FROM STUDENT WHERE NAME LIKE "%AR";
++---------+
+| NAME    |
++---------+
+| THUSHAR |
++---------+
+DELETE FROM STUDENT WHERE USN='1001';
+
+ SELECT * FROM STUDENT;
++------------+-----------+------------+--------+-------+-------+-------+-------+------+
+| USN        | NAME      | DATE_BIRTH | BRANCH | MARK1 | MARK2 | MARK3 | TOTAL | GPA  |
++------------+-----------+------------+--------+-------+-------+-------+-------+------+
+| 4VP21MC010 | ASHVINI   | 2011-07-02 | MCA    |    89 |    90 |    70 |   249 |   83 |
+| 4VP21MC012 | SHAINITHA | 2000-05-01 | MBA    |    49 |    60 |    89 |   198 |   66 |
+| 4VP21MC021 | ASHVINI   | 2001-09-03 | MCA    |    74 |    71 |    39 |   184 |   61 |
+| 4VP21MC023 | HARI      | 1991-12-18 | MCA    |    29 |    30 |    59 |   118 |   39 |
+| 4VP21MC029 | HARSH     | 1998-11-18 | MCA    |    99 |   100 |    99 |   298 |   99 |
+| 4VP21MC050 | AVANI     | 1990-07-10 | MCA    |    99 |   100 |   100 |   299 |  100 |
+| 4VP21MC060 | THUSHAR   | 1980-07-11 | MCA    |    99 |   100 |    80 |   279 |   93 |
++------------+-----------+------------+--------+-------+-------+-------+-------+------+
+
+
+
+
+
+
+CREATE TABLE TEAMS(TID VARCHAR(20)PRIMARY KEY,TNAME VARCHAR(25)NOT NULL,COACH VARCHAR(25),CAPTAIN_ID VARCHAR(20),CITY VARCHAR(20),FOREIGN KEY(CAPTAIN_ID)REFERENCES PLAYER(PID));
+
+CREATE TABLE TEAM MODIFY FOREIGN KEY(CAPTAIN_ID)REFERENCES PLAYER(PID);
+
+
+CREATE TABLE PLAYER(PID VARCHAR(20)PRIMARY KEY,PNAME VARCHAR(25)NOT NULL,AGE INT(4),TID VARCHAR(20),FOREIGN KEY(TID) REFERENCES TEAM(TID));
+
+CREATE TABLE STADIUM(SID VARCHAR(20)PRIMARY KEY,SNAME VARCHAR(25)NOT NULL,PINCODE INT(10),CITY VARCHAR(20),AREA VARCHAR(25));
+
+CREATE TABLE MATCHES(MID VARCHAR(20)PRIMARY KEY,MDATE DATE,TIME TIME,SID VARCHAR(20),TEAM1_ID VARCHAR(20),TEAM2_ID VARCHAR(20),WINNINGTEAM_ID VARCHAR(20),MAN_OF_THE_MATCH VARCHAR(25),FOREIGN KEY (SID)REFERENCES STADIUM(SID),FOREIGN KEY(TEAM1_ID)REFERENCES TEAM(TID),FOREIGN KEY(TEAM2_ID)REFERENCES TEAM(TID),FOREIGN KEY(WINNINGTEAM_ID)REFERENCES TEAM TABLE TAEM ADD FOREIGN KEY(MAN_OF_THE_MATCH)REFERENCES PLAYER(PID);
+
+A TABLE PLAYER_PHONE(PID VARCHAR(20)PRIMARY KEY,PHONE INT);
+ALTER TABLE TAEM ADD FOREIGN KEY(MAN_OF_THE_MATCH)REFERENCES PLAYER(PID);
+
+
+INSERT INTO TEAMS(TID,TNAME,COACH,CITY)VALUES('121','RCB','MANU','BANGALORE');
+Query OK, 1 row affected (0.00 sec)
+
